@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="calculator.css">
+</head>
+<body>
+    <div class="container">
+        <form action="" class="calculator" name="calc">
+            <input type="text" class="value" name="txt" readonly />
+            <span class="num clear" onclick="calc.txt.value = ''">C</span>
+            <span class="num" onclick="document.calc.txt.value += '/'">/</span>
+            <span class="num" onclick="document.calc.txt.value += '*'">*</span>
+            <span class="num" onclick="document.calc.txt.value += '7'">7</span>
+            <span class="num" onclick="document.calc.txt.value += '8'">8</span>
+            <span class="num" onclick="document.calc.txt.value += '9'">9</span>
+            <span class="num" onclick="document.calc.txt.value += '-'">-</span>
+            <span class="num" onclick="document.calc.txt.value += '4'">4</span>
+            <span class="num" onclick="document.calc.txt.value += '5'">5</span>
+            <span class="num" onclick="document.calc.txt.value += '6'">6</span>
+            <span class="num plus" onclick="document.calc.txt.value += '+'">+</span>
+            <span class="num" onclick="document.calc.txt.value += '1'">1</span>
+            <span class="num" onclick="document.calc.txt.value += '2'">2</span>
+            <span class="num" onclick="document.calc.txt.value += '3'">3</span>
+            <span class="num" onclick="document.calc.txt.value += '0'">0</span>
+            <span class="num" onclick="document.calc.txt.value += '00'">00</span>
+            <span class="num" onclick="document.calc.txt.value += '.'">.</span>
+            <span class="num" onclick="calculate('Math.sin')">sin</span>
+            <span class="num" onclick="calculate('Math.cos')">cos</span>
+            <span class="num" onclick="calculate('Math.tan')">tan</span>
+            <span class="num" onclick="calculate('Math.sqrt')">sqrt</span>
+            <span class="num" onclick="calculate('Math.log')">log</span>
+            <span class="num" onclick="calculate('Math.exp')">exp</span>
+            <span class="num equal" onclick="calculate('=')">=</span>
+        </form>
+    </div>
+    <script type="text/javascript" src="vanilla-tilt.js"></script>
+    <script type="text/javascript">
+        VanillaTilt.init(document.querySelector(".container"), {
+            max: 25,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
+        document.querySelector('.container').addEventListener('mousemove', function (e) {
+            const tiltElement = document.querySelector('.container');
+            const rect = tiltElement.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+
+            tiltElement.vanillaTilt.setTiltAngleY((y - 0.5) * 25);
+            tiltElement.vanillaTilt.setTiltAngleX((x - 0.5) * 25);
+        });
+
+        function calculate(value) {
+            if (value === '=') {
+                try {
+                    calc.txt.value = eval(calc.txt.value);
+                } 
+                catch (error) {
+                    calc.txt.value = 'Error';
+                }
+            } 
+            else {
+                calc.txt.value = eval(value + '(' + calc.txt.value + ')');
+            }
+        }
+    </script>
+</body>
+</html>
